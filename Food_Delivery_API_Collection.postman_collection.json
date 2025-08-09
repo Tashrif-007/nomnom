@@ -1,0 +1,1425 @@
+{
+	"info": {
+		"_postman_id": "food-delivery-api-collection",
+		"name": "Food Delivery Platform API - Revised",
+		"description": "Comprehensive and corrected API collection for Food Delivery Platform with accurate endpoints and payloads based on actual controller implementations.\n\nTesting Workflow:\n1. Start with Authentication - create users with different roles\n2. Create Delivery Rider Profile after signing up a delivery rider\n3. Restaurant owners create restaurants (requires admin approval)\n4. Add menu items to restaurants\n5. Users add items to cart and place orders\n6. Restaurant owners manage incoming orders\n7. Admins assign delivery riders to orders\n8. Delivery riders update order status\n\nAll test scripts automatically capture necessary IDs for subsequent requests.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "User Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('jwt_token', response.token);",
+									"    pm.collectionVariables.set('user_id', response.userId);",
+									"    console.log('User Token:', response.token);",
+									"    console.log('User ID:', response.userId);",
+									"    console.log('Message:', response.message);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/signup",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "signup"]
+						}
+					}
+				},
+				{
+					"name": "Admin Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('admin_token', response.token);",
+									"    pm.collectionVariables.set('admin_id', response.userId);",
+									"    console.log('Admin Token:', response.token);",
+									"    console.log('Admin ID:', response.userId);",
+									"    console.log('Message:', response.message);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@fooddelivery.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/admin/signup",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "admin", "signup"]
+						}
+					}
+				},
+				{
+					"name": "Restaurant Owner Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('owner_token', response.token);",
+									"    pm.collectionVariables.set('owner_id', response.userId);",
+									"    console.log('Owner Token:', response.token);",
+									"    console.log('Owner ID:', response.userId);",
+									"    console.log('Message:', response.message);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"owner@restaurant.com\",\n  \"password\": \"owner123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/restaurant-owner/signup",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "restaurant-owner", "signup"]
+						}
+					}
+				},
+				{
+					"name": "Delivery Rider Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('rider_token', response.token);",
+									"    pm.collectionVariables.set('rider_id', response.userId);",
+									"    console.log('Rider Token:', response.token);",
+									"    console.log('Rider ID:', response.userId);",
+									"    console.log('Message:', response.message);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"rider@delivery.com\",\n  \"password\": \"rider123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/delivery-rider/signup",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "delivery-rider", "signup"]
+						}
+					}
+				},
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('jwt_token', response.token);",
+									"    pm.collectionVariables.set('user_id', response.userId);",
+									"    console.log('Login Token:', response.token);",
+									"    console.log('User ID:', response.userId);",
+									"    console.log('Message:', response.message);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Create Delivery Rider Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('actual_rider_id', response.riderId);",
+									"    console.log('Delivery Rider Profile Created!');",
+									"    console.log('Message:', response.message);",
+									"    console.log('Actual Rider ID:', response.riderId);",
+									"    console.log('Vehicle Type:', response.vehicleType);",
+									"    console.log('Status:', response.status);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{rider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{rider_id}}\",\n  \"vehicleType\": \"BIKE\",\n  \"licenseNumber\": \"DL123456789\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/delivery/rider/create-profile",
+							"host": ["{{base_url}}"],
+							"path": ["delivery", "rider", "create-profile"]
+						}
+					}
+				},
+				{
+					"name": "Create Guest Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('guest_session_id', response.guestSessionId);",
+									"    console.log('Guest Session ID:', response.guestSessionId);",
+									"    console.log('Expires In (seconds):', response.expiresIn);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/guest-session",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "guest-session"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. User Profile Management",
+			"item": [
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/profile?userId={{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["users", "profile"],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe Updated\",\n  \"phone\": \"+8801234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/profile?userId={{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["users", "profile"],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('address_id', response.addressId);",
+									"    console.log('Address ID:', response.addressId);",
+									"    console.log('Message:', response.message);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"HOME\",\n  \"street\": \"123 Main Street, Apt 4B\",\n  \"city\": \"Dhaka\",\n  \"area\": \"Gulshan\",\n  \"isDefault\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/addresses?userId={{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["users", "addresses"],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Address",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"WORK\",\n  \"street\": \"456 Office Plaza, 10th Floor\",\n  \"city\": \"Dhaka\",\n  \"area\": \"Dhanmondi\",\n  \"isDefault\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/addresses/{{address_id}}?userId={{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["users", "addresses", "{{address_id}}"],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Address",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/addresses/{{address_id}}?userId={{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["users", "addresses", "{{address_id}}"],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Set Default Address",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/addresses/{{address_id}}/default?userId={{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["users", "addresses", "{{address_id}}", "default"],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Restaurant Management",
+			"item": [
+				{
+					"name": "Create Restaurant (Owner)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('restaurant_id', response.restaurantId);",
+									"    console.log('Restaurant ID:', response.restaurantId);",
+									"    console.log('Restaurant Name:', response.name);",
+									"    console.log('Message:', response.message);",
+									"    console.log('Is Active:', response.isActive);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Mario's Italian Kitchen\",\n  \"city\": \"Dhaka\",\n  \"area\": \"Gulshan 2\",\n  \"cuisine\": [\"Italian\", \"Pizza\", \"Pasta\"],\n  \"estimatedDeliveryTime\": 30,\n  \"description\": \"Authentic Italian cuisine with fresh ingredients\",\n  \"imageUrl\": \"https://example.com/restaurant.jpg\",\n  \"phoneNumber\": \"+8801712345678\",\n  \"operatingHours\": {\n    \"openTime\": \"10:00\",\n    \"closeTime\": \"23:00\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurants",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants"]
+						}
+					}
+				},
+				{
+					"name": "Search Restaurants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/restaurants/search?location=Dhaka&cuisine=Italian",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants", "search"],
+							"query": [
+								{
+									"key": "location",
+									"value": "Dhaka"
+								},
+								{
+									"key": "cuisine",
+									"value": "Italian"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Restaurant Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/restaurants/{{restaurant_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants", "{{restaurant_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Restaurant (Owner/Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Mario's Updated Italian Kitchen\",\n  \"city\": \"Dhaka\",\n  \"area\": \"Gulshan 2\",\n  \"cuisine\": [\"Italian\", \"Pizza\", \"Pasta\", \"Mediterranean\"],\n  \"estimatedDeliveryTime\": 25,\n  \"description\": \"Updated authentic Italian cuisine with fresh ingredients\",\n  \"imageUrl\": \"https://example.com/updated-restaurant.jpg\",\n  \"phoneNumber\": \"+8801712345678\",\n  \"isActive\": true,\n  \"operatingHours\": {\n    \"openTime\": \"09:00\",\n    \"closeTime\": \"24:00\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurants/{{restaurant_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants", "{{restaurant_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Get Restaurants by Owner",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurants/owner/{{owner_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants", "owner", "{{owner_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Get Pending Restaurants (Admin Only)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurants/pending-approval",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants", "pending-approval"]
+						}
+					}
+				},
+				{
+					"name": "Approve Restaurant (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurants/{{restaurant_id}}/approve",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants", "{{restaurant_id}}", "approve"]
+						}
+					}
+				},
+				{
+					"name": "Reject Restaurant (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Incomplete documentation. Please provide valid business license and food safety certificates.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurants/{{restaurant_id}}/reject",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants", "{{restaurant_id}}", "reject"]
+						}
+					}
+				},
+				{
+					"name": "Suspend Restaurant (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Multiple customer complaints about food quality. Temporary suspension pending investigation.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurants/{{restaurant_id}}/suspend",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants", "{{restaurant_id}}", "suspend"]
+						}
+					}
+				},
+				{
+					"name": "Delete Restaurant (Admin Only)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurants/{{restaurant_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurants", "{{restaurant_id}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Menu Management",
+			"item": [
+				{
+					"name": "Get Restaurant Menu",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurant/{{restaurant_id}}/menu",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "{{restaurant_id}}", "menu"]
+						}
+					}
+				},
+				{
+					"name": "Add Menu Item (Owner)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('menu_item_id', response.itemId);",
+									"    console.log('Menu Item ID:', response.itemId);",
+									"    console.log('Message:', response.message);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Margherita Pizza\",\n  \"description\": \"Classic pizza with tomato sauce, mozzarella, and fresh basil\",\n  \"price\": 850.99,\n  \"imageUrl\": \"https://example.com/pizza.jpg\",\n  \"available\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurant/{{restaurant_id}}/menu",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "{{restaurant_id}}", "menu"]
+						}
+					}
+				},
+				{
+					"name": "Update Menu Item (Owner)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Supreme Pizza\",\n  \"description\": \"Pizza with pepperoni, mushrooms, bell peppers, and olives\",\n  \"price\": 1250.99,\n  \"imageUrl\": \"https://example.com/supreme-pizza.jpg\",\n  \"available\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurant/menu/{{menu_item_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "menu", "{{menu_item_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Menu Item (Owner)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurant/menu/{{menu_item_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "menu", "{{menu_item_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Item Availability (Owner)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"available\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurant/menu/{{menu_item_id}}/availability",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "menu", "{{menu_item_id}}", "availability"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Cart & Orders",
+			"item": [
+				{
+					"name": "Add to Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('cart_id', response.cartId);",
+									"    console.log('Cart ID:', response.cartId);",
+									"    console.log('Message:', response.message);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"guestSessionId\": null,\n  \"restaurantId\": \"{{restaurant_id}}\",\n  \"items\": [\n    {\n      \"itemId\": \"{{menu_item_id}}\",\n      \"quantity\": 2\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cart",
+							"host": ["{{base_url}}"],
+							"path": ["cart"]
+						}
+					}
+				},
+				{
+					"name": "Add to Cart (Guest)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": null,\n  \"guestSessionId\": \"{{guest_session_id}}\",\n  \"restaurantId\": \"{{restaurant_id}}\",\n  \"items\": [\n    {\n      \"itemId\": \"{{menu_item_id}}\",\n      \"quantity\": 1\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cart",
+							"host": ["{{base_url}}"],
+							"path": ["cart"]
+						}
+					}
+				},
+				{
+					"name": "Get Cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cart/{{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["cart", "{{user_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Place Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('order_id', response.orderId);",
+									"    console.log('Order ID:', response.orderId);",
+									"    console.log('Message:', response.message);",
+									"    console.log('Estimated Delivery Time:', response.estimatedDeliveryTime);",
+									"    console.log('Status:', response.status);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"guestSessionId\": null,\n  \"cartId\": \"{{cart_id}}\",\n  \"deliveryAddress\": \"123 Main Street, Apt 4B, Gulshan, Dhaka. Instructions: Ring doorbell twice and call when arriving\",\n  \"paymentMethod\": \"CARD\",\n  \"paymentInfo\": {\n    \"stripeToken\": \"tok_1234567890abcdef\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/orders",
+							"host": ["{{base_url}}"],
+							"path": ["orders"]
+						}
+					}
+				},
+				{
+					"name": "Place Order (Guest)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": null,\n  \"guestSessionId\": \"{{guest_session_id}}\",\n  \"cartId\": \"{{cart_id}}\",\n  \"deliveryAddress\": \"456 Guest Street, Dhanmondi, Dhaka. Instructions: Call on arrival\",\n  \"paymentMethod\": \"COD\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/orders",
+							"host": ["{{base_url}}"],
+							"path": ["orders"]
+						}
+					}
+				},
+				{
+					"name": "Track Order Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/orders/{{order_id}}/status",
+							"host": ["{{base_url}}"],
+							"path": ["orders", "{{order_id}}", "status"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "6. Restaurant Order Management",
+			"item": [
+				{
+					"name": "Get Restaurant Orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurant/{{restaurant_id}}/orders?status=ORDER_RECEIVED",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "{{restaurant_id}}", "orders"],
+							"query": [
+								{
+									"key": "status",
+									"value": "ORDER_RECEIVED"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Accept Order (Restaurant)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Accepted\",\n  \"prepTime\": 30\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurant/orders/{{order_id}}/status",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "orders", "{{order_id}}", "status"]
+						}
+					}
+				},
+				{
+					"name": "Reject Order (Restaurant)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Rejected\",\n  \"reason\": \"Sorry, we are out of this item today. Please choose something else.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurant/orders/{{order_id}}/status",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "orders", "{{order_id}}", "status"]
+						}
+					}
+				},
+				{
+					"name": "Update Order Progress - Preparing",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"PREPARING\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurant/orders/{{order_id}}/progress",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "orders", "{{order_id}}", "progress"]
+						}
+					}
+				},
+				{
+					"name": "Update Order Progress - Ready for Delivery",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"OUT_FOR_DELIVERY\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurant/orders/{{order_id}}/progress",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "orders", "{{order_id}}", "progress"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "7. Delivery Management",
+			"item": [
+				{
+					"name": "Assign Delivery Rider",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"orderId\": \"{{order_id}}\",\n  \"riderId\": \"{{actual_rider_id}}\",\n  \"assignedBy\": \"{{admin_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/delivery/assign",
+							"host": ["{{base_url}}"],
+							"path": ["delivery", "assign"]
+						}
+					}
+				},
+				{
+					"name": "Get Available Riders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response && response.length > 0) {",
+									"        pm.collectionVariables.set('available_rider_id', response[0].riderId);",
+									"        console.log('Available Rider ID:', response[0].riderId);",
+									"        console.log('Rider Name:', response[0].name);",
+									"        console.log('Vehicle Type:', response[0].vehicleType);",
+									"        console.log('Rating:', response[0].rating);",
+									"    } else {",
+									"        console.log('No available riders found');",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/delivery/riders?status=AVAILABLE",
+							"host": ["{{base_url}}"],
+							"path": ["delivery", "riders"],
+							"query": [
+								{
+									"key": "status",
+									"value": "AVAILABLE"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Rider Orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{rider_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/delivery/rider/{{actual_rider_id}}/orders",
+							"host": ["{{base_url}}"],
+							"path": ["delivery", "rider", "{{actual_rider_id}}", "orders"]
+						}
+					}
+				},
+				{
+					"name": "Update Delivery Status - Picked Up",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{rider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"PICKED_UP\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/delivery/order/{{order_id}}/status",
+							"host": ["{{base_url}}"],
+							"path": ["delivery", "order", "{{order_id}}", "status"]
+						}
+					}
+				},
+				{
+					"name": "Update Delivery Status - Out for Delivery",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{rider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"OUT_FOR_DELIVERY\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/delivery/order/{{order_id}}/status",
+							"host": ["{{base_url}}"],
+							"path": ["delivery", "order", "{{order_id}}", "status"]
+						}
+					}
+				},
+				{
+					"name": "Update Delivery Status - Delivered",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{rider_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"DELIVERED\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/delivery/order/{{order_id}}/status",
+							"host": ["{{base_url}}"],
+							"path": ["delivery", "order", "{{order_id}}", "status"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "8. Analytics",
+			"item": [
+				{
+					"name": "Get Restaurant Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{owner_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurant/{{restaurant_id}}/analytics?from=2024-01-01&to=2024-12-31",
+							"host": ["{{base_url}}"],
+							"path": ["restaurant", "{{restaurant_id}}", "analytics"],
+							"query": [
+								{
+									"key": "from",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "to",
+									"value": "2024-12-31"
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string",
+			"description": "Base URL for the Food Delivery API server"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string",
+			"description": "JWT token for regular user authentication"
+		},
+		{
+			"key": "admin_token",
+			"value": "",
+			"type": "string",
+			"description": "JWT token for admin user authentication"
+		},
+		{
+			"key": "owner_token",
+			"value": "",
+			"type": "string",
+			"description": "JWT token for restaurant owner authentication"
+		},
+		{
+			"key": "rider_token",
+			"value": "",
+			"type": "string",
+			"description": "JWT token for delivery rider authentication"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the regular user account"
+		},
+		{
+			"key": "admin_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the admin user account"
+		},
+		{
+			"key": "owner_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the restaurant owner account"
+		},
+		{
+			"key": "rider_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the delivery rider user account"
+		},
+		{
+			"key": "restaurant_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the created restaurant"
+		},
+		{
+			"key": "menu_item_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the created menu item"
+		},
+		{
+			"key": "address_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the user's address"
+		},
+		{
+			"key": "cart_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the user's cart"
+		},
+		{
+			"key": "order_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the placed order"
+		},
+		{
+			"key": "guest_session_id",
+			"value": "",
+			"type": "string",
+			"description": "ID for guest user session"
+		},
+		{
+			"key": "available_rider_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of an available delivery rider"
+		},
+		{
+			"key": "actual_rider_id",
+			"value": "",
+			"type": "string",
+			"description": "ID of the delivery rider profile (after creating profile)"
+		}
+	]
+}
